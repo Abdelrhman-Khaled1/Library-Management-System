@@ -3,14 +3,14 @@ package com.maids.cc.Library.Management.System.Books;
 import com.maids.cc.Library.Management.System.Books.model.dto.AddBookDto;
 import com.maids.cc.Library.Management.System.Books.model.dto.BookDto;
 import com.maids.cc.Library.Management.System.Books.model.dto.UpdateBookDto;
-import com.maids.cc.Library.Management.System.Books.model.entity.Book;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -27,17 +27,17 @@ public class BookController {
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         BookDto book = bookService.getBookById(id);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(book);
+        return ResponseEntity.status(HttpStatus.OK).body(book);
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> addBook(@RequestBody AddBookDto bookDto) {
+    public ResponseEntity<BookDto> addBook(@Valid @RequestBody AddBookDto bookDto) {
         BookDto savedBook = bookService.saveBook(bookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody UpdateBookDto updatedBookDto) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable Long id,@Valid @RequestBody UpdateBookDto updatedBookDto) {
         BookDto updated = bookService.updateBook(id, updatedBookDto);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }

@@ -23,8 +23,16 @@ public class BookService {
     }
 
     public BookDto getBookById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID must be greater than 0");
+        }
+
         Optional<Book> book = bookRepository.findById(id);
-        return bookMapper.toDto(book.get());
+        if (book.isPresent()) {
+            return bookMapper.toDto(book.get());
+        } else {
+            throw new BookNotFoundException(id);
+        }
     }
 
     public BookDto saveBook(AddBookDto bookDto) {
@@ -34,13 +42,27 @@ public class BookService {
     }
 
     public BookDto updateBook(Long id, UpdateBookDto updatedBookDto) {
-        Book updatedBook = bookMapper.toEntity(updatedBookDto);
-        updatedBook.setId(id);
-        Book book = bookRepository.save(updatedBook);
-        return bookMapper.toDto(book);
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID must be greater than 0"); // or create a custom exception
+        }
+        if (bookRepository.findById(id).isPresent()) {
+            Book updatedBook = bookMapper.toEntity(updatedBookDto);
+            updatedBook.setId(id);
+            Book book = bookRepository.save(updatedBook);
+            return bookMapper.toDto(book);
+        }
+        throw new BookNotFoundException(id);
     }
 
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID must be greater than 0"); // or create a custom exception
+        }
+
+        if (bookRepository.findById(id).isPresent()) {
+            bookRepository.deleteById(id);
+        } else {
+            throw new BookNotFoundException(id);
+        }
     }
 }
