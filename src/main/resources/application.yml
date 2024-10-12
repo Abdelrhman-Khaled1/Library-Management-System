@@ -20,4 +20,4 @@ logging:
   level:
     root: INFO                # Set the root logging level to INFO
     org.springframework: ERROR  # Log ERROR level messages for Spring components
-    com.maids.cc.Library.Management.System: DEBUG   # Log DEBUG level messages for your specific package
+    com.maids.cc.Library.Management.System: INFO   # Log DEBUG level messages for your specific package
