@@ -11,9 +11,9 @@ import java.util.Arrays;
 
 @Aspect
 @Component
-public class LoggingAspect {
+public class BookLoggingAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookLoggingAspect.class);
 
     @Before("execution(* com.maids.cc.Library.Management.System.Books.*.*(..))")
     public void logMethodCall(JoinPoint joinPoint) {
