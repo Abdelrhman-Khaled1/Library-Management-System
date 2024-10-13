@@ -1,9 +1,9 @@
 package com.maids.cc.Library.Management.System;
 
 import com.maids.cc.Library.Management.System.Books.BookNotFoundException;
+import com.maids.cc.Library.Management.System.Patrons.PatronNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-//    @ExceptionHandler(BindException.class)
+    //    @ExceptionHandler(BindException.class)
 //    public ResponseEntity<HashMap<String , List<String >>> handleBindException (BindException exception){
 //        List<String> errors = exception.getAllErrors().stream()
 //                .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -49,6 +49,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<HashMap<String, Object>> handleBookNotFoundException(BookNotFoundException ex) {
+        logger.error("Error: {}", ex.getMessage());
+        HashMap<String, Object> response = createErrorResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PatronNotFoundException.class)
+    public ResponseEntity<HashMap<String, Object>> handlePatronNotFoundException(PatronNotFoundException ex) {
         logger.error("Error: {}", ex.getMessage());
         HashMap<String, Object> response = createErrorResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
