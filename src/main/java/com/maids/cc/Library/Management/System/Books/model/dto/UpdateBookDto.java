@@ -14,6 +14,7 @@ public class UpdateBookDto {
 
     @NotBlank(message = "Title should not be null")
     @Size(max = 100, message = "Title's size should not be more than 100 characters")
+    @Size(max = 3, message = "Title's size should not be less than 3 characters")
     private String title;
 
     @Size(min=3, message = "Author's name must be at least 3 characters long")
