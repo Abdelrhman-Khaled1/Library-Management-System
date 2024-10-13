@@ -215,7 +215,7 @@ class BookControllerTest {
     void testUpdateBook_InvalidUpdateBookDto() throws Exception {
         // Create an UpdateBookDto with invalid data
         UpdateBookDto updateBookDto = new UpdateBookDto();
-        updateBookDto.setTitle(""); // Invalid: Title should not be blank
+        updateBookDto.setTitle("a"); // Invalid: Title size should be more than 3
         updateBookDto.setAuthor("Au"); // Invalid: Author's name must be at least 3 characters long
         updateBookDto.setPublicationYear(1400); // Invalid: Year should not be before 1450
         updateBookDto.setIsbn("InvalidISBN"); // Invalid: Not a valid ISBN format
@@ -225,10 +225,9 @@ class BookControllerTest {
                         .content(objectMapper.writeValueAsString(updateBookDto))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest()) // Expect HTTP 400 Bad Request
-                .andExpect(jsonPath("$.errors", hasSize(4))) // Validate that 4 validation errors are returned
                 .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("title", "author", "publicationYear", "isbn"))) // Check all fields are present
                 .andExpect(jsonPath("$.errors[*].message", containsInAnyOrder(
-                        "Title should not be null",
+                        "Title's size should not be less than 3 characters",
                         "Author's name must be at least 3 characters long",
                         "Publication year should not be before 1450",
                         "Invalid ISBN format. Must be ISBN-10 or ISBN-13"))); // Check all error messages are present
