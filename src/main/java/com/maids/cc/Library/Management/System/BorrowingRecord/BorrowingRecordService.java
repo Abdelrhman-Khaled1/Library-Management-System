@@ -9,13 +9,16 @@ import com.maids.cc.Library.Management.System.BorrowingRecord.model.entity.Borro
 import com.maids.cc.Library.Management.System.BorrowingRecord.model.mapper.BorrowingRecordMapper;
 import com.maids.cc.Library.Management.System.Patrons.PatronService;
 import com.maids.cc.Library.Management.System.Patrons.model.entity.Patron;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BorrowingRecordService {
@@ -26,7 +29,7 @@ public class BorrowingRecordService {
     private final BorrowingRecordMapper borrowingMapper;
 
     @Transactional
-    public void borrowBook(Long bookId, Long patronId) {
+    public void borrowBook(@NotNull Long bookId, @NotNull Long patronId) {
         if (borrowingRepository.existsByBookIdAndReturnDateIsNull(bookId))
             throw new BookIsAlreadyBorrowedException(bookId);
 
@@ -42,7 +45,7 @@ public class BorrowingRecordService {
     }
 
     @Transactional
-    public void returnBook(Long bookId, Long patronId) {
+    public void returnBook(@NotNull Long bookId, @NotNull Long patronId) {
         if (!borrowingRepository.existsByBookIdAndPatronIdAndReturnDateIsNull(bookId, patronId))
             throw new BorrowedRecordDoesNotExist(bookId, patronId);
 
@@ -56,6 +59,13 @@ public class BorrowingRecordService {
 
     public List<BorrowingRecordDto> getUnreturnedBooks() {
         List<BorrowingRecord> unreturnedRecords = borrowingRepository.findByReturned(false);
+
+        if (unreturnedRecords.isEmpty()) {
+            log.info("No unreturned borrowing records found.");
+        } else {
+            log.info("Found {} unreturned borrowing records.", unreturnedRecords.size());
+        }
+
         return unreturnedRecords.stream()
                 .map(borrowingMapper::toDto)
                 .toList();
