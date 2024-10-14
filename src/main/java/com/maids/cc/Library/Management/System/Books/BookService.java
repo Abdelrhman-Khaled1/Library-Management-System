@@ -71,4 +71,8 @@ public class BookService {
             throw new BookNotFoundException(id);
         }
     }
+
+    public Book getBookEntityById(Long bookId) {
+        return bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException(bookId));
+    }
 }

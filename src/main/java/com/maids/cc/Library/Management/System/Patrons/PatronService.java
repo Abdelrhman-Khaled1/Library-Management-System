@@ -70,4 +70,8 @@ public class PatronService {
             throw new PatronNotFoundException(id);
         }
     }
+
+    public Patron getPatronEntityById(Long patronId) {
+        return patronRepository.findById(patronId).orElseThrow(() -> new PatronNotFoundException(patronId));
+    }
 }

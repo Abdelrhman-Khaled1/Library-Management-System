@@ -1,10 +1,14 @@
 package com.maids.cc.Library.Management.System.Patrons.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maids.cc.Library.Management.System.BorrowingRecord.model.entity.BorrowingRecord;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "patrons")
@@ -22,4 +26,8 @@ public class Patron {
     @Column(name = "contact_info")
     private String contactInfo;
     private String notes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "patron", cascade = CascadeType.ALL)
+    private List<BorrowingRecord> borrowingRecords;
 }

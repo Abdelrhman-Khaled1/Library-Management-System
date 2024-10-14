@@ -1,6 +1,8 @@
 package com.maids.cc.Library.Management.System;
 
 import com.maids.cc.Library.Management.System.Books.BookNotFoundException;
+import com.maids.cc.Library.Management.System.BorrowingRecord.exception.BookIsAlreadyBorrowedException;
+import com.maids.cc.Library.Management.System.BorrowingRecord.exception.BorrowedRecordDoesNotExist;
 import com.maids.cc.Library.Management.System.Patrons.PatronNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +61,18 @@ public class GlobalExceptionHandler {
         logger.error("Error: {}", ex.getMessage());
         HashMap<String, Object> response = createErrorResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(BorrowedRecordDoesNotExist.class)
+    public ResponseEntity<HashMap<String, Object>> handleBorrowedRecordDoesNotExist(BorrowedRecordDoesNotExist ex) {
+        logger.error("Error: {}", ex.getMessage());
+        HashMap<String, Object> response = createErrorResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(BookIsAlreadyBorrowedException.class)
+    public ResponseEntity<HashMap<String, Object>> handleBookIsAlreadyBorrowedException(BookIsAlreadyBorrowedException ex) {
+        logger.error("Error: {}", ex.getMessage());
+        HashMap<String, Object> response = createErrorResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
