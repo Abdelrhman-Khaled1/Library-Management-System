@@ -51,7 +51,7 @@ This section provides details about the API endpoints, authentication, and how t
 ### API Endpoints
 
 The base URL for all endpoints is:
-``` http://localhost:8080/api ```
+``` http://localhost:8080/api/v1 ```
 
 
 
@@ -82,7 +82,9 @@ http://localhost:8080/api/v1/auth/register
 }
 ```
 
+### You can download the all postman endpoints from here
 
+https://drive.google.com/file/d/1MTzfl7XGVHUxehUTTH15Do4FuDH3xVw4/view?usp=sharing
 
 
    
