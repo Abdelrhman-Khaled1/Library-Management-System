@@ -2,6 +2,12 @@
 
 This project is a **Library Management System** built using **Spring Boot**. It provides a set of API endpoints for managing books and interacting with the system. The application uses **Spring Security** for authentication and **Spring Data JPA** for database operations.
 
+![maids cc](https://github.com/user-attachments/assets/eff31b15-1e2c-4690-b2c5-dcafe57fdba5)
+
+
+## Overview
+I have implemented **all mandatory tasks**, as well as **optional tasks** such as security, logging with Aspect-Oriented Programming (AOP), caching, and transaction management. Additionally, I have written **comprehensive test cases** to ensure the correctness of the API functionality.
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
@@ -82,9 +88,21 @@ http://localhost:8080/api/v1/auth/register
 }
 ```
 
-### You can download the all postman endpoints from here
+### You can download all the postman endpoints from here
 
 https://drive.google.com/file/d/1MTzfl7XGVHUxehUTTH15Do4FuDH3xVw4/view?usp=sharing
 
+### Caching
+To enhance performance, I have implemented caching using Spring's caching mechanisms. Frequently accessed data, such as book and patron information, is cached to improve response times.
 
+___
+
+### Logging and Aspects
+I have implemented logging using Aspect-Oriented Programming (AOP). Key operations, such as book additions, updates, and patron transactions, are logged for performance and auditing purposes.
    
+___
+
+
+### Testing
+The project includes comprehensive test cases for validating the API functionality. Unit tests are written using JUnit and Mockito. These tests ensure the correctness of all API endpoints, as well as the caching and security configurations.
+___
